@@ -11,7 +11,10 @@
 
     <!-- Top Navbar -->
     <nav class="navbar navbar-dark bg-dark px-4 shadow-sm">
-        <span class="navbar-brand mb-0 h1">🛠️ Job Card Management Console</span>
+        <a class="navbar-brand d-flex align-items-center text-decoration-none text-white" href="/">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="35" class="me-2 bg-light rounded p-1">
+            <span class="fs-5">🛠️ Job Card Management Console</span>
+        </a>
         <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
     </nav>
 
