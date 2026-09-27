@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark px-4 mb-4">
+        <span class="navbar-brand">🛠️ Job Card Management Console</span>
+        <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+    </nav>
+
+    <div class="container mb-5">
+        <!-- Section 1: Create & Dispatch Job -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">Create & Dispatch Job Card</div>
+            <div class="card-body">
+                <form action="/create_job" method="POST" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select" required>
+                            <option value="Fault/Maintenance">Fault/Maintenance</option>
+                            <option value="Uniform Request">Uniform Request</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Description</label>
+                        <input type="text" name="description" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Technician Telegram ID</label>
+                        <input type="number" name="technician_id" class="form-control" required>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-dark w-100">Dispatch</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section 2: Manage Staff & Technicians -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-secondary text-white">Add / Manage Staff & Technicians</div>
+            <div class="card-body">
+                <form action="/add_user" method="POST" class="row g-3">
+                    <div class="col-md-2">
+                        <label class="form-label">Telegram ID</label>
+                        <input type="number" name="user_id" class="form-control" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Role</label>
+                        <select name="role" class="form-select">
+                            <option value="Technician">Technician</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Category Assignment</label>
+                        <input type="text" name="category" class="form-control" placeholder="e.g. Fault/Maintenance">
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100">Save User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section 3: Job Review Table -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">All Job Records & Statuses</div>
+            <div class="card-body">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Raised By</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs %}
+                        <tr>
+                            <td><strong>{{ job.reference }}</strong></td>
+                            <td>@{{ job.username }}</td>
+                            <td>{{ job.category }}</td>
+                            <td>{{ job.description }}</td>
+                            <td><span class="badge bg-secondary">{{ job.status }}</span></td>
+                            <td>{{ job.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

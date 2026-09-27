@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Job Requests - Support System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark px-4 shadow-sm">
+        <span class="navbar-brand mb-0 h1">📋 My Support & Maintenance Requests</span>
+        <div>
+            <span class="text-white me-3">Welcome, {{ session['username'] }}</span>
+            <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <strong>Your Submitted Job Cards</strong>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Technician Notes</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if jobs %}
+                                {% for job in jobs %}
+                                <tr>
+                                    <td><strong>{{ job.reference }}</strong></td>
+                                    <td>{{ job.category }}</td>
+                                    <td>{{ job.description }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if job.status == 'Completed' %} bg-success
+                                            {% elif job.status == 'Cancelled' %} bg-danger
+                                            {% elif 'Accepted' in job.status %} bg-warning text-dark
+                                            {% else %} bg-secondary 
+                                            {% endif %}">
+                                            {{ job.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if job.completion_notes %}
+                                            <span class="text-success">📝 {{ job.completion_notes }}</span>
+                                        {% else %}
+                                            <span class="text-muted small">No notes yet</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ job.created_at }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">You have not submitted any job requests yet.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
